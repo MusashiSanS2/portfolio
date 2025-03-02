@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio de Criações PS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8e44ad; /* Roxo */
+      --secondary: #9b59b6; /* Roxo mais claro */
+      --accent: #ff3860;
+      --dark: #1a1a1a;
+      --light: #f5f5f5;
+      --text: #e0e0e0;
+      --bg-gradient: linear-gradient(135deg, #141414, #1f1f1f);
+      --card-bg: rgba(255, 255, 255, 0.05);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2000;
+    }
+    .nav-logo {
+      font-size: clamp(1.5rem, 3vw, 1.75rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    .nav a:hover {
+      color: var(--primary);
+    }
+    /* Main Container */
+    .main-container {
+      margin-top: 100px; /* Espaço para evitar sobreposição com a navbar */
+      padding: 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Grid de Criações */
+    .creations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .creation-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .creation-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+    }
+    .creation-preview {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .creation-card-content {
+      padding: 1rem;
+    }
+    .creation-card-content h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+    .creation-card-content p {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    /* Modal para imagem ampliada */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="nav-logo">Portfolio PS</div>
+    <a href="index.html" class="nav-link">Voltar para Início</a>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-container">
+    <h2 class="section-title">Minhas Criações no Photoshop</h2>
+    <div class="creations-grid">
+      <!-- Card Criação 1 -->
+      <div class="creation-card" data-img="imagens/criacao1.jpg">
+        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+1" alt="Criação 1" class="creation-preview">
+        <div class="creation-card-content">
+          <h3>Criacão 1</h3>
+          <p>Descrição breve da criação 1.</p>
+        </div>
+      </div>
+      <!-- Card Criação 2 -->
+      <div class="creation-card" data-img="imagens/criacao2.jpg">
+        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+2" alt="Criação 2" class="creation-preview">
+        <div class="creation-card-content">
+          <h3>Criacão 2</h3>
+          <p>Descrição breve da criação 2.</p>
+        </div>
+      </div>
+      <!-- Card Criação 3 -->
+      <div class="creation-card" data-img="imagens/criacao3.jpg">
+        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+3" alt="Criação 3" class="creation-preview">
+        <div class="creation-card-content">
+          <h3>Criacão 3</h3>
+          <p>Descrição breve da criação 3.</p>
+        </div>
+      </div>
+      <!-- Card Criação 4 -->
+      <div class="creation-card" data-img="imagens/criacao4.jpg">
+        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+4" alt="Criação 4" class="creation-preview">
+        <div class="creation-card-content">
+          <h3>Criacão 4</h3>
+          <p>Descrição breve da criação 4.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para imagem ampliada -->
+  <div id="modal" class="modal">
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <script>
+    // Seleciona todos os cards de criação
+    const cards = document.querySelectorAll('.creation-card');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+
+    // Função para abrir o modal com a imagem ampliada
+    function openModal(imgSrc) {
+      modalImg.src = imgSrc;
+      modal.style.display = 'flex';
+    }
+
+    // Adiciona evento de clique para cada card
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Verifica se há atributo data-img para pegar a URL da imagem original
+        const imgSrc = card.getAttribute('data-img') || card.querySelector('img').src;
+        openModal(imgSrc);
+      });
+    });
+
+    // Fecha o modal ao clicar fora da imagem
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
