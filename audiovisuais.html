@@ -27,6 +27,35 @@
       min-height: 100vh;
       padding-bottom: 150px; /* Espaço para o footer */
     }
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2000;
+    }
+    .nav-logo {
+      font-size: clamp(1.5rem, 3vw, 1.75rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    .nav a:hover {
+      color: var(--primary);
+    }
     /* Container Principal */
     .main-container {
       padding: 2rem;
@@ -130,6 +159,12 @@
   </style>
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="nav-logo">Portfolio PS</div>
+    <a href="index.html" class="nav-link">Voltar para Início</a>
+  </nav>
+
   <!-- Conteúdo Principal -->
   <div class="main-container">
     <h2 class="section-title">Editor de Vídeo</h2>
