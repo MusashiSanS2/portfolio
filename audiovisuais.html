@@ -3,16 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio de Criações PS</title>
+  <title>Edição de Vídeo - GZDGAMERS69</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #8e44ad; /* Roxo */
-      --secondary: #9b59b6; /* Roxo mais claro */
-      --accent: #ff3860;
-      --dark: #1a1a1a;
-      --light: #f5f5f5;
+      --primary: #8e44ad;
+      --secondary: #9b59b6;
       --text: #e0e0e0;
       --bg-gradient: linear-gradient(135deg, #141414, #1f1f1f);
       --card-bg: rgba(255, 255, 255, 0.05);
@@ -27,88 +24,45 @@
       background: var(--bg-gradient);
       color: var(--text);
       line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 150px; /* Espaço para o footer */
     }
-    /* Navbar */
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 2rem;
-      background: rgba(26, 26, 26, 0.95);
-      backdrop-filter: blur(10px);
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 2000;
-    }
-    .nav-logo {
-      font-size: clamp(1.5rem, 3vw, 1.75rem);
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-size: 1rem;
-      transition: color 0.3s;
-    }
-    .nav a:hover {
-      color: var(--primary);
-    }
-    /* Main Container */
+    /* Container Principal */
     .main-container {
-      margin-top: 100px; /* Espaço para evitar sobreposição com a navbar */
       padding: 2rem;
       max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 100px auto 0;
+      text-align: center;
     }
     .section-title {
-      text-align: center;
       margin-bottom: 2rem;
       font-size: clamp(2rem, 5vw, 2.75rem);
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    /* Grid de Criações */
-    .creations-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    .creation-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
+    /* Vídeo Card */
+    .video-card {
+      display: inline-block;
       cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s;
     }
-    .creation-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+    .video-card:hover {
+      transform: translateY(-5px);
     }
-    .creation-preview {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+    .video-card img {
       display: block;
+      max-width: 640px;
+      width: 100%;
     }
-    .creation-card-content {
+    .video-card p {
       padding: 1rem;
+      font-size: 1.1rem;
     }
-    .creation-card-content h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.5rem;
-    }
-    .creation-card-content p {
-      font-size: 1rem;
-      line-height: 1.4;
-    }
-    /* Modal para imagem ampliada */
+    /* Modal do Vídeo */
     .modal {
       display: none;
       position: fixed;
@@ -117,95 +71,108 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
       background-color: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
+      padding: 1rem;
     }
     .modal-content {
-      max-width: 90%;
-      max-height: 90%;
+      background: var(--card-bg);
+      padding: 1rem;
       border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      max-width: 700px;
+      width: 100%;
+    }
+    .modal-content video {
+      width: 100%;
+      border-radius: 10px;
+    }
+    /* Seção do Canal (Footer) */
+    .channel-section {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(26,26,26,0.95);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+    }
+    .channel-section a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .channel-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+    .subscribe-button {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .subscribe-button:hover {
+      background: var(--secondary);
     }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="nav">
-    <div class="nav-logo">Portfolio PS</div>
-    <a href="index.html" class="nav-link">Voltar para Início</a>
-  </nav>
-
   <!-- Conteúdo Principal -->
   <div class="main-container">
-    <h2 class="section-title">Minhas Criações no Photoshop</h2>
-    <div class="creations-grid">
-      <!-- Card Criação 1 -->
-      <div class="creation-card" data-img="imagens/criacao1.jpg">
-        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+1" alt="Criação 1" class="creation-preview">
-        <div class="creation-card-content">
-          <h3>Criacão 1</h3>
-          <p>Descrição breve da criação 1.</p>
-        </div>
-      </div>
-      <!-- Card Criação 2 -->
-      <div class="creation-card" data-img="imagens/criacao2.jpg">
-        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+2" alt="Criação 2" class="creation-preview">
-        <div class="creation-card-content">
-          <h3>Criacão 2</h3>
-          <p>Descrição breve da criação 2.</p>
-        </div>
-      </div>
-      <!-- Card Criação 3 -->
-      <div class="creation-card" data-img="imagens/criacao3.jpg">
-        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+3" alt="Criação 3" class="creation-preview">
-        <div class="creation-card-content">
-          <h3>Criacão 3</h3>
-          <p>Descrição breve da criação 3.</p>
-        </div>
-      </div>
-      <!-- Card Criação 4 -->
-      <div class="creation-card" data-img="imagens/criacao4.jpg">
-        <img src="https://via.placeholder.com/300x200?text=Criac%C3%A3o+4" alt="Criação 4" class="creation-preview">
-        <div class="creation-card-content">
-          <h3>Criacão 4</h3>
-          <p>Descrição breve da criação 4.</p>
-        </div>
-      </div>
+    <h2 class="section-title">Editor de Vídeo</h2>
+    <div class="video-card" data-video="videos/video.mp4">
+      <img src="https://via.placeholder.com/640x360?text=Clique+para+editar+o+vídeo" alt="Thumbnail do Vídeo">
+      <p>Clique para editar o vídeo</p>
     </div>
   </div>
 
-  <!-- Modal para imagem ampliada -->
-  <div id="modal" class="modal">
-    <img class="modal-content" id="modal-img">
+  <!-- Modal do Vídeo -->
+  <div id="video-modal" class="modal">
+    <div class="modal-content">
+      <video id="video-player" controls>
+        <source src="videos/video.mp4" type="video/mp4">
+        Seu navegador não suporta o elemento de vídeo.
+      </video>
+    </div>
   </div>
 
+  <!-- Seção do Canal -->
+  <footer class="channel-section">
+    <a href="https://www.youtube.com/@GZDGAMERS69" target="_blank">
+      <img src="https://via.placeholder.com/80" alt="Foto do Canal" class="channel-photo">
+      <div>
+        <h3>GZDGAMERS69</h3>
+        <p>Inscreva-se</p>
+      </div>
+    </a>
+  </footer>
+
+  <!-- JavaScript -->
   <script>
-    // Seleciona todos os cards de criação
-    const cards = document.querySelectorAll('.creation-card');
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modal-img');
+    const videoCard = document.querySelector('.video-card');
+    const modal = document.getElementById('video-modal');
+    const videoPlayer = document.getElementById('video-player');
 
-    // Função para abrir o modal com a imagem ampliada
-    function openModal(imgSrc) {
-      modalImg.src = imgSrc;
+    videoCard.addEventListener('click', () => {
       modal.style.display = 'flex';
-    }
-
-    // Adiciona evento de clique para cada card
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        // Verifica se há atributo data-img para pegar a URL da imagem original
-        const imgSrc = card.getAttribute('data-img') || card.querySelector('img').src;
-        openModal(imgSrc);
-      });
     });
 
-    // Fecha o modal ao clicar fora da imagem
+    // Fecha o modal ao clicar fora da área do conteúdo
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.style.display = 'none';
+        videoPlayer.pause();
       }
     });
   </script>
