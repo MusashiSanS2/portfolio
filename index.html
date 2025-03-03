@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lemos Dev Portfolio</title>
+  <link rel="icon" href="icon.svg" type="svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    :root {
+      --primary: #8e44ad; /* Roxo */
+      --secondary: #9b59b6; /* Roxo mais claro */
+      --accent: #ff3860;
+      --dark: #1a1a1a;
+      --light: #f5f5f5;
+      --text: #e0e0e0;
+      --bg-gradient: linear-gradient(135deg, #141414, #1f1f1f); /* Background inalterado */
+      --card-bg: rgba(255, 255, 255, 0.05);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    /* Loading Screen */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+    }
+    #loading .spinner {
+      border: 8px solid var(--secondary);
+      border-top: 8px solid var(--primary);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Navegação */
+    .nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+    }
+    .nav-logo {
+      font-size: clamp(1.5rem, 3vw, 1.75rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: var(--primary);
+      left: 0;
+      bottom: -4px;
+      transition: width 0.3s;
+    }
+    .nav-link:hover {
+      color: var(--primary);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+    /* Menu Mobile */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2500;
+    }
+    .mobile-menu a {
+      color: var(--light);
+      font-size: 1.5rem;
+      text-decoration: none;
+      margin: 1rem;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover {
+      color: var(--primary);
+    }
+    .mobile-menu-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2rem;
+      color: var(--light);
+      cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    /* Seção Hero */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      max-width: 800px;
+    }
+    .hero-content h1 {
+      font-size: clamp(2rem, 8vw, 4rem);
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(142,68,173,0.7);
+      user-select: none; /* Impede a seleção do texto */
+    }
+    .hero-content p {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 8px rgba(0,0,0,0.3);
+    }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: var(--primary);
+      color: var(--light);
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .btn:hover {
+      background: var(--secondary);
+      box-shadow: 0 0 15px var(--secondary);
+    }
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: clamp(2rem, 8vw, 3rem); }
+      .hero-content p { font-size: clamp(0.9rem, 3vw, 1rem); }
+    }
+    /* Seções Gerais */
+    section {
+      padding: 6rem 2rem;
+      position: relative;
+      z-index: 2;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: var(--text);
+    }
+    /* Estilo Moderno para áreas abaixo do Hero */
+    .modern-section {
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(5px);
+      border-radius: 10px;
+      margin: 2rem auto;
+      max-width: 1200px;
+      padding: 4rem 2rem;
+    }
+    /* Cards de Projeto */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: clamp(1rem, 2vw, 2rem);
+      padding: 0 1rem;
+      justify-content: center;
+    }
+    .projects-grid a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .project-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+    }
+    .project-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover::before {
+      opacity: 1;
+    }
+    .project-card i {
+      font-size: clamp(2rem, 6vw, 3rem);
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .project-card h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.5rem;
+    }
+    .project-card p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    /* Cards de Habilidade */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .skill-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }
+    .skill-card h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    .skill-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    /* Contato */
+    .contact-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }
+    .contact-card a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--primary);
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .contact-card a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    /* Rodapé */
+    footer {
+      background: rgba(26,26,26,0.95);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text);
+    }
+    footer p {
+      font-size: 0.9rem;
+    }
+    /* Efeito flutuante para os cards */
+    .floating {
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    @media (max-width: 480px) {
+      .nav { padding: 1rem; }
+      section { padding: 4rem 1rem; }
+    }
+    @media (min-width: 1200px) {
+      .projects-grid { gap: 2rem; }
+      .skills-grid { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navegação -->
+  <nav class="nav">
+    <div class="nav-logo">Lemos Dev Portfolio</div>
+    <div class="nav-links">
+      <a href="#hero" class="nav-link">Início</a>
+      <a href="#sobre" class="nav-link">Sobre</a>
+      <a href="#projetos" class="nav-link">Projetos</a>
+      <a href="#habilidades" class="nav-link">Habilidades</a>
+      <a href="#contato" class="nav-link">Contato</a>
+    </div>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- Popup do Menu Mobile -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-close">
+      <i class="fas fa-times"></i>
+    </div>
+    <a href="#hero" class="nav-link">Início</a>
+    <a href="#sobre" class="nav-link">Sobre</a>
+    <a href="#projetos" class="nav-link">Projetos</a>
+    <a href="#habilidades" class="nav-link">Habilidades</a>
+    <a href="#contato" class="nav-link">Contato</a>
+  </div>
+
+  <!-- Seção Hero -->
+  <section id="hero" class="hero">
+    <div id="particles-js">
+      <canvas class="particles-js-canvas-el" style="width: 100%; height: 100%;"></canvas>
+    </div>
+    <div class="hero-content" data-aos="fade-up">
+      <h1>Olá, eu sou Lemos Dev</h1>
+      <p>Desenvolvedor Web &amp; Designer apaixonado por criar experiências digitais únicas.</p>
+      <button class="btn" onclick="document.querySelector('#projetos').scrollIntoView({behavior:'smooth'})">
+        Veja Meus Projetos
+      </button>
+    </div>
+  </section>
+
+  <!-- Seção Sobre -->
+  <section id="sobre" class="modern-section">
+    <h2 class="section-title" data-aos="fade-up">Sobre Mim</h2>
+    <div data-aos="fade-up" data-aos-delay="200">
+      <p>
+        Sou um profissional dedicado com anos de experiência em desenvolvimento web e design gráfico. Minha paixão é transformar ideias em soluções digitais criativas e funcionais.
+      </p>
+      <p>
+        Ao longo da minha carreira, colaborei com alguns projetos, sempre buscando inovar e entregar resultados de alta qualidade.
+      </p>
+    </div>
+  </section>
+
+  <!-- Seção Projetos -->
+  <section id="projetos" class="modern-section">
+    <h2 class="section-title" data-aos="fade-up">Projetos</h2>
+    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">
+      Confira meus principais projetos:
+    </p>
+    <div class="projects-grid">
+      <a href="sites.html" data-aos="fade-up">
+        <div class="project-card floating">
+          <i class="fas fa-laptop"></i>
+          <h3>Sites</h3>
+          <p>Desenvolvimento de sites modernos e responsivos.</p>
+        </div>
+      </a>
+      <a href="edicoes.html" data-aos="fade-up" data-aos-delay="150">
+        <div class="project-card floating">
+          <i class="fas fa-camera-retro"></i>
+          <h3>Edições de Foto</h3>
+          <p>Criações e edições fotográficas com qualidade e criatividade.</p>
+        </div>
+      </a>
+      <a href="audiovisuais.html" data-aos="fade-up" data-aos-delay="300">
+        <div class="project-card floating">
+          <i class="fas fa-video"></i>
+          <h3>Criações Audiovisuais</h3>
+          <p>Produção e edição de vídeos e conteúdos audiovisuais.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Seção Habilidades -->
+  <section id="habilidades" class="modern-section">
+    <h2 class="section-title" data-aos="fade-up">Habilidades</h2>
+    <div class="skills-grid">
+      <div class="skill-card" data-aos="fade-up">
+        <h3>HTML &amp; CSS</h3>
+        <p>Domínio na criação de layouts responsivos e semânticos com as melhores práticas de desenvolvimento web.</p>
+      </div>
+      <div class="skill-card" data-aos="fade-up" data-aos-delay="150">
+        <h3>JavaScript</h3>
+        <p>Experiência em desenvolvimento interativo e dinâmico, utilizando frameworks modernos e bibliotecas.</p>
+      </div>
+      <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+        <h3>React &amp; Node.js</h3>
+        <p>Construção de aplicações escaláveis com tecnologias de ponta para front-end e back-end.</p>
+      </div>
+      <div class="skill-card" data-aos="fade-up" data-aos-delay="450">
+        <h3>Design Gráfico</h3>
+        <p>Criação de identidades visuais, logos e materiais gráficos que fortalecem a presença digital.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Contato -->
+  <section id="contato" class="modern-section">
+    <h2 class="section-title" data-aos="fade-up">Contato</h2>
+    <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+      <p>Se você deseja trabalhar comigo ou simplesmente trocar ideias, sinta-se à vontade para entrar em contato.</p>
+      <p>
+        <i class="fas fa-envelope"></i> <a href="mailto:musashi@amathyzin.com">musashi@amathyzin.com
+
+        </a>
+      </p>
+      <p>
+        <i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/lemos-dev-72a0312a9/" target="_blank">LinkedIn</a>
+      </p>
+      <p>
+        <i class="fab fa-github"></i> <a href="https://github.com/MusashiSanS2" target="_blank">GitHub</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>© 2025 Meu Portfolio Moderno. Todos os direitos reservados.</p>
+    <p>Desenvolvido com paixão e dedicação.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    window.addEventListener('load', () => {
+      gsap.to('#loading', {
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => {
+          document.getElementById('loading').style.display = 'none';
+        }
+      });
+      AOS.init({
+        duration: 1000,
+        once: true
+      });
+    });
+
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 140,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "push": {
+            "particles_nb": 4
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Efeito de Perspectiva para os Cards de Projeto
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        let rect = card.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+        card.style.transform = `perspective(1000px) rotateX(${(y - rect.height / 2) / 10}deg) rotateY(${-(x - rect.width / 2) / 10}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+      });
+    });
+
+    // Menu Mobile: exibe e oculta o popup
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.style.display = 'flex';
+    });
+
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenu.style.display = 'none';
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.style.display = 'none';
+      });
+    });
+  </script>
+
+  <!-- Script de Internacionalização -->
+  <script>
+    // Objeto com as traduções para "pt" e "en"
+    const translations = {
+      pt: {
+        nav: {
+          inicio: "Início",
+          sobre: "Sobre",
+          projetos: "Projetos",
+          habilidades: "Habilidades",
+          contato: "Contato"
+        },
+        hero: {
+          title: "Olá, eu sou Lemos Dev",
+          text: "Desenvolvedor Web & Designer apaixonado por criar experiências digitais únicas.",
+          btn: "Veja Meus Projetos"
+        },
+        sobre: {
+          title: "Sobre Mim",
+          p1: "Sou um profissional dedicado com anos de experiência em desenvolvimento web e design gráfico. Minha paixão é transformar ideias em soluções digitais criativas e funcionais.",
+          p2: "Ao longo da minha carreira, colaborei com alguns projetos, sempre buscando inovar e entregar resultados de alta qualidade."
+        },
+        projetos: {
+          title: "Projetos",
+          subtitle: "Confira meus principais projetos:",
+          card1: { title: "Sites", desc: "Desenvolvimento de sites modernos e responsivos." },
+          card2: { title: "Edições de Foto", desc: "Criações e edições fotográficas com qualidade e criatividade." },
+          card3: { title: "Criações Audiovisuais", desc: "Produção e edição de vídeos e conteúdos audiovisuais." }
+        },
+        habilidades: {
+          title: "Habilidades",
+          card1: { title: "HTML & CSS", desc: "Domínio na criação de layouts responsivos e semânticos com as melhores práticas de desenvolvimento web." },
+          card2: { title: "JavaScript", desc: "Experiência em desenvolvimento interativo e dinâmico, utilizando frameworks modernos e bibliotecas." },
+          card3: { title: "React & Node.js", desc: "Construção de aplicações escaláveis com tecnologias de ponta para front-end e back-end." },
+          card4: { title: "Design Gráfico", desc: "Criação de identidades visuais, logos e materiais gráficos que fortalecem a presença digital." }
+        },
+        contato: {
+          title: "Contato",
+          text: "Se você deseja trabalhar comigo ou simplesmente trocar ideias, sinta-se à vontade para entrar em contato."
+        },
+        footer: {
+          p1: "© 2025 Meu Portfolio Moderno. Todos os direitos reservados.",
+          p2: "Desenvolvido com paixão e dedicação."
+        }
+      },
+      en: {
+        nav: {
+          inicio: "Home",
+          sobre: "About",
+          projetos: "Projects",
+          habilidades: "Skills",
+          contato: "Contact"
+        },
+        hero: {
+          title: "Hello, I am Lemos Dev",
+          text: "Web Developer & Designer passionate about creating unique digital experiences.",
+          btn: "View My Projects"
+        },
+        sobre: {
+          title: "About Me",
+          p1: "I am a dedicated professional with years of experience in web development and graphic design. My passion is transforming ideas into creative and functional digital solutions.",
+          p2: "Throughout my career, I have collaborated on various projects, always striving to innovate and deliver high-quality results."
+        },
+        projetos: {
+          title: "Projects",
+          subtitle: "Check out my main projects:",
+          card1: { title: "Websites", desc: "Development of modern and responsive websites." },
+          card2: { title: "Photo Editing", desc: "Creation and editing of photographs with quality and creativity." },
+          card3: { title: "Audiovisual Creations", desc: "Production and editing of videos and audiovisual content." }
+        },
+        habilidades: {
+          title: "Skills",
+          card1: { title: "HTML & CSS", desc: "Mastery in creating responsive and semantic layouts with the best web development practices." },
+          card2: { title: "JavaScript", desc: "Experience in interactive and dynamic development, using modern frameworks and libraries." },
+          card3: { title: "React & Node.js", desc: "Building scalable applications with cutting-edge technologies for front-end and back-end." },
+          card4: { title: "Graphic Design", desc: "Creation of visual identities, logos, and graphic materials that strengthen digital presence." }
+        },
+        contato: {
+          title: "Contact",
+          text: "If you want to work with me or simply exchange ideas, feel free to get in touch."
+        },
+        footer: {
+          p1: "© 2025 My Modern Portfolio. All rights reserved.",
+          p2: "Developed with passion and dedication."
+        }
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+      let userLang = navigator.language || navigator.userLanguage;
+      let langCode = userLang.slice(0, 2);
+      const texts = translations[langCode] || translations["pt"];
+
+      // Atualiza os textos da navegação
+      document.querySelectorAll(".nav-link").forEach(link => {
+        let linkText = link.innerText.trim();
+        if(linkText === "Início" || linkText === "Home"){
+          link.innerText = texts.nav.inicio;
+        } else if(linkText === "Sobre"){
+          link.innerText = texts.nav.sobre;
+        } else if(linkText === "Projetos"){
+          link.innerText = texts.nav.projetos;
+        } else if(linkText === "Habilidades"){
+          link.innerText = texts.nav.habilidades;
+        } else if(linkText === "Contato"){
+          link.innerText = texts.nav.contato;
+        }
+      });
+
+      // Atualiza a seção Hero
+      const heroTitle = document.querySelector(".hero-content h1");
+      if(heroTitle) heroTitle.innerText = texts.hero.title;
+      const heroText = document.querySelector(".hero-content p");
+      if(heroText) heroText.innerText = texts.hero.text;
+      const heroBtn = document.querySelector(".hero-content .btn");
+      if(heroBtn) heroBtn.innerText = texts.hero.btn;
+
+      // Atualiza a seção Sobre
+      const sobreTitle = document.querySelector("#sobre .section-title");
+      if(sobreTitle) sobreTitle.innerText = texts.sobre.title;
+      const sobreParas = document.querySelectorAll("#sobre p");
+      if(sobreParas.length >= 2) {
+        sobreParas[0].innerText = texts.sobre.p1;
+        sobreParas[1].innerText = texts.sobre.p2;
+      }
+
+      // Atualiza a seção Projetos
+      const projetosTitle = document.querySelector("#projetos .section-title");
+      if(projetosTitle) projetosTitle.innerText = texts.projetos.title;
+      const projetosSubtitle = document.querySelector("#projetos .section-subtitle");
+      if(projetosSubtitle) projetosSubtitle.innerText = texts.projetos.subtitle;
+      const projectCards = document.querySelectorAll("#projetos .project-card");
+      if(projectCards.length >= 3) {
+        projectCards[0].querySelector("h3").innerText = texts.projetos.card1.title;
+        projectCards[0].querySelector("p").innerText = texts.projetos.card1.desc;
+        projectCards[1].querySelector("h3").innerText = texts.projetos.card2.title;
+        projectCards[1].querySelector("p").innerText = texts.projetos.card2.desc;
+        projectCards[2].querySelector("h3").innerText = texts.projetos.card3.title;
+        projectCards[2].querySelector("p").innerText = texts.projetos.card3.desc;
+      }
+
+      // Atualiza a seção Habilidades
+      const habilidadesTitle = document.querySelector("#habilidades .section-title");
+      if(habilidadesTitle) habilidadesTitle.innerText = texts.habilidades.title;
+      const skillCards = document.querySelectorAll("#habilidades .skill-card");
+      if(skillCards.length >= 4) {
+        skillCards[0].querySelector("h3").innerText = texts.habilidades.card1.title;
+        skillCards[0].querySelector("p").innerText = texts.habilidades.card1.desc;
+        skillCards[1].querySelector("h3").innerText = texts.habilidades.card2.title;
+        skillCards[1].querySelector("p").innerText = texts.habilidades.card2.desc;
+        skillCards[2].querySelector("h3").innerText = texts.habilidades.card3.title;
+        skillCards[2].querySelector("p").innerText = texts.habilidades.card3.desc;
+        skillCards[3].querySelector("h3").innerText = texts.habilidades.card4.title;
+        skillCards[3].querySelector("p").innerText = texts.habilidades.card4.desc;
+      }
+
+      // Atualiza a seção Contato
+      const contatoTitle = document.querySelector("#contato .section-title");
+      if(contatoTitle) contatoTitle.innerText = texts.contato.title;
+      const contatoCard = document.querySelector("#contato .contact-card p");
+      if(contatoCard) contatoCard.innerText = texts.contato.text;
+
+      // Atualiza o Rodapé
+      const footerParas = document.querySelectorAll("footer p");
+      if(footerParas.length >= 2) {
+        footerParas[0].innerText = texts.footer.p1;
+        footerParas[1].innerText = texts.footer.p2;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sites - Meu Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8e44ad; /* Roxo */
+      --secondary: #9b59b6; /* Roxo mais claro */
+      --accent: #ff3860;
+      --dark: #1a1a1a;
+      --light: #f5f5f5;
+      --text: #e0e0e0;
+      --bg-gradient: linear-gradient(135deg, #141414, #1f1f1f);
+      --card-bg: rgba(255, 255, 255, 0.05);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2000;
+    }
+    .nav-logo {
+      font-size: clamp(1.5rem, 3vw, 1.75rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    .nav a:hover {
+      color: var(--primary);
+    }
+    /* Main Container */
+    .main-container {
+      margin-top: 100px; /* Espaço para evitar sobreposição com a navbar */
+      padding: 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Grid de Sites */
+    .sites-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .site-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .site-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+    }
+    .site-preview {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .site-card-content {
+      padding: 1rem;
+    }
+    .site-card-content h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+    .site-card-content p {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar com botão para voltar para o início -->
+  <nav class="nav">
+    <div class="nav-logo">Sites</div>
+    <a href="index.html" class="nav-link">Voltar para Início</a>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-container">
+    <h2 class="section-title">Meus Sites</h2>
+    <div class="sites-grid">
+      <!-- Card do Site 1 -->
+      <a href="https://example.com/site1" target="_blank">
+        <div class="site-card">
+          <img src="https://via.placeholder.com/300x200?text=Site+1" alt="Site 1" class="site-preview">
+          <div class="site-card-content">
+            <h3>Site 1</h3>
+            <p>Descrição breve do site 1.</p>
+          </div>
+        </div>
+      </a>
+      <!-- Card do Site 2 -->
+      <a href="https://example.com/site2" target="_blank">
+        <div class="site-card">
+          <img src="https://via.placeholder.com/300x200?text=Site+2" alt="Site 2" class="site-preview">
+          <div class="site-card-content">
+            <h3>Site 2</h3>
+            <p>Descrição breve do site 2.</p>
+          </div>
+        </div>
+      </a>
+      <!-- Card do Site 3 -->
+      <a href="https://example.com/site3" target="_blank">
+        <div class="site-card">
+          <img src="https://via.placeholder.com/300x200?text=Site+3" alt="Site 3" class="site-preview">
+          <div class="site-card-content">
+            <h3>Site 3</h3>
+            <p>Descrição breve do site 3.</p>
+          </div>
+        </div>
+      </a>
+      <!-- Card do Site 4 -->
+      <a href="https://example.com/site4" target="_blank">
+        <div class="site-card">
+          <img src="https://via.placeholder.com/300x200?text=Site+4" alt="Site 4" class="site-preview">
+          <div class="site-card-content">
+            <h3>Site 4</h3>
+            <p>Descrição breve do site 4.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Script de Internacionalização -->
+  <script>
+    // Objeto com as traduções para "pt" e "en"
+    const translations = {
+      pt: {
+        nav: {
+          voltar: "Voltar para Início"
+        },
+        title: "Meus Sites",
+        card1: { title: "Site 1", desc: "Descrição breve do site 1." },
+        card2: { title: "Site 2", desc: "Descrição breve do site 2." },
+        card3: { title: "Site 3", desc: "Descrição breve do site 3." },
+        card4: { title: "Site 4", desc: "Descrição breve do site 4." }
+      },
+      en: {
+        nav: {
+          voltar: "Back to Home"
+        },
+        title: "My Websites",
+        card1: { title: "Website 1", desc: "Brief description of website 1." },
+        card2: { title: "Website 2", desc: "Brief description of website 2." },
+        card3: { title: "Website 3", desc: "Brief description of website 3." },
+        card4: { title: "Website 4", desc: "Brief description of website 4." }
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+      let userLang = navigator.language || navigator.userLanguage;
+      // Se o idioma do navegador começar com "pt", usa traduções em português; caso contrário, usa inglês.
+      const texts = userLang.toLowerCase().startsWith("pt") ? translations.pt : translations.en;
+
+      // Atualiza o link da navbar
+      const navLink = document.querySelector(".nav a.nav-link");
+      if (navLink) {
+        navLink.innerText = texts.nav.voltar;
+      }
+
+      // Atualiza o título da seção
+      const sectionTitle = document.querySelector(".main-container .section-title");
+      if (sectionTitle) {
+        sectionTitle.innerText = texts.title;
+      }
+
+      // Atualiza os cards de site (assumindo que há 4 cards)
+      const siteCards = document.querySelectorAll(".site-card");
+      if (siteCards.length >= 4) {
+        siteCards[0].querySelector("h3").innerText = texts.card1.title;
+        siteCards[0].querySelector("p").innerText = texts.card1.desc;
+        siteCards[1].querySelector("h3").innerText = texts.card2.title;
+        siteCards[1].querySelector("p").innerText = texts.card2.desc;
+        siteCards[2].querySelector("h3").innerText = texts.card3.title;
+        siteCards[2].querySelector("p").innerText = texts.card3.desc;
+        siteCards[3].querySelector("h3").innerText = texts.card4.title;
+        siteCards[3].querySelector("p").innerText = texts.card4.desc;
+      }
+    });
+  </script>
+</body>
+</html>
